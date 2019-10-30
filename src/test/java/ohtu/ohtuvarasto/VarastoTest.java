@@ -65,4 +65,62 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void negaatiivisenMaaranOttaminenPalauttaaNolla() {
+        double saatuMaara = varasto.otaVarastosta(-1);
+        assertEquals(0, saatuMaara, vertailuTarkkuus);
+    }
+
+    @Test
+    public void liianSuuriOttaminenPalauttaaKokoSaldon() {
+        varasto.lisaaVarastoon(8);
+        double saatuMaara = varasto.otaVarastosta(10);
+        assertEquals(8, saatuMaara, vertailuTarkkuus);
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void merkkijonoesitysOnOikea() {
+        varasto.lisaaVarastoon(8);
+        assertEquals("saldo = 8.0, vielä tilaa 2.0", varasto.toString());
+    }
+
+    @Test
+    public void virheellinenAlkutilavuusNollaksi() {
+        Varasto toinen = new Varasto(-1);
+        assertEquals(0.0, toinen.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenLisaaminenEiMuutaSaldoa() {
+        varasto.lisaaVarastoon(8);
+        varasto.lisaaVarastoon(-1);
+        assertEquals(8, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void lisaaminenYliTilavuudenAsettaaSaldoksiTilavuuden() {
+        varasto.lisaaVarastoon(12);
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void konstruktoriAsettaaTilavuudenJaSaldonOikein() {
+        Varasto toinen = new Varasto(10, 5);
+        assertEquals(10, toinen.getTilavuus(), vertailuTarkkuus);
+        assertEquals(5, toinen.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenTilavuusSaldonKanssaAsettaaTilavuudeksiNolla() {
+        Varasto toinen = new Varasto(-1, 5);
+        assertEquals(0, toinen.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenAlkusaldoAsetetaanNollaksi() {
+        Varasto toinen = new Varasto(10, -2);
+        assertEquals(0, toinen.getSaldo(), vertailuTarkkuus);
+    }
+
 }
