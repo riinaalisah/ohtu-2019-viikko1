@@ -120,7 +120,7 @@ public class VarastoTest {
     @Test
     public void virheellinenAlkusaldoAsetetaanNollaksi() {
         Varasto toinen = new Varasto(10, -2);
-        assertEquals(2, toinen.getSaldo(), vertailuTarkkuus);
+        assertEquals(0, toinen.getSaldo(), vertailuTarkkuus);
     }
 
 }
